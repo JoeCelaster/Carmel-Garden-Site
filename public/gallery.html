@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - Carmel Garden Matriculation Higher Secondary School</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="container top-bar-inner">
+            <div class="contact-info">
+                <span><i class="fa-solid fa-phone"></i> +91 82200 59980</span>
+                <span><i class="fa-solid fa-envelope"></i> admin@carmelgarden.edu.in</span>
+            </div>
+            <div class="top-links">
+                <a href="alumni.html">Our Alumni</a>
+                <a href="news.html">News</a>
+                <a href="about.html#faq">FAQ</a>
+                <a href="admin.html" class="login-btn">Admin Login <i class="fa-solid fa-lock"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="navbar">
+        <div class="container nav-inner">
+            <div class="logo">
+                <a href="index.html" style="display: flex; align-items: center; gap: 10px;">
+                    <img src="images/logo.jpeg" alt="Logo" style="height: 40px;">
+                    <h1 id="cms-brand-name">Carmel Garden</h1>
+                </a>
+            </div>
+            <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle Menu">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li class="dropdown">
+                    <a href="about.html">About Us <i class="fa-solid fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="about.html#vision">Vision & Mission</a></li>
+                        <li><a href="about.html#message">Correspondent&Principal Desk</a></li>
+                        <li><a href="about.html#history">History</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="academics.html">Academics <i class="fa-solid fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="academics.html#montessori">Montessori Method</a></li>
+                        <li><a href="academics.html#pedagogy">Pedagogy</a></li>
+                    </ul>
+                </li>
+                <li><a href="facilities.html">Facilities</a></li>
+                <li><a href="gallery.html" class="active">Gallery</a></li>
+                <li><a href="alumni.html">Proud Alumni</a></li>
+                <li><a href="news.html">News</a></li>
+                <li><a href="apply.html" class="btn btn-primary">Apply Now</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 100vh Hero Section -->
+    <div class="page-hero" style="background-image: url('images/gallery-hero.png'); background-color: var(--dark);">
+        <div class="page-hero-content fade-up-element visible">
+            <h1 class="page-hero-title">Gallery</h1>
+            <p class="page-hero-subtitle">Moments to Cherish</p>
+        </div>
+    </div>
+
+    <!-- Gallery Section -->
+    <section class="gallery-sec" style="padding-top: 60px; padding-bottom: 80px; min-height: 70vh;">
+        <div class="container">
+
+            <!-- Folders View -->
+            <div id="gallery-folders-container">
+                <div class="gallery-filters">
+                    <input type="text" id="gallery-search" placeholder="Search albums by name..." class="gallery-search-input" onkeyup="filterAlbums()">
+                    <select id="gallery-year-filter" class="gallery-year-select" onchange="filterAlbums()">
+                        <option value="">All Years</option>
+                    </select>
+                </div>
+                <div id="gallery-folders" class="gallery-folder-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px;">
+                    <div style="text-align:center; width: 100%; padding: 50px;">
+                        <p style="color:var(--grey);">Loading gallery events...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Photos View (Hidden by default) -->
+            <div id="gallery-photos" class="hidden">
+                <div class="gallery-header-row mb-4" style="display: flex; align-items: center; gap: 15px; border-bottom: 2px solid rgba(0,0,0,0.05); padding-bottom: 15px; margin-bottom: 25px;">
+                    <button class="back-btn" onclick="closeFolder()" style="background: var(--light); border: 1px solid var(--border); padding: 8px 16px; border-radius: 30px; cursor: pointer; font-weight: 600; transition: 0.3s;"><i class="fa-solid fa-arrow-left"></i> Back to Albums</button>
+                    <h3 id="current-event-title" style="margin:0; font-family:'Playfair Display', serif; color:var(--dark); font-size: 1.8rem;">Event Name</h3>
+                </div>
+                <div id="photos-grid" class="photos-grid">
+                    <!-- Photos injected here -->
+                </div>
+                <!-- Pagination for photos -->
+                <div id="gallery-pagination"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox hidden" onclick="closeLightbox()" style="position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 9999; display: flex; justify-content: center; align-items: center; transition: opacity 0.3s;">
+        <span class="lightbox-close" style="position: absolute; top: 20px; right: 30px; color: #fff; font-size: 2.5rem; cursor: pointer; z-index: 1001;">&times;</span>
+        <button class="lightbox-nav lightbox-prev" onclick="event.stopPropagation(); prevImage()"><i class="fa-solid fa-chevron-left"></i></button>
+        <img id="lightbox-img" src="" alt="Full Screen Image" onclick="event.stopPropagation()" style="max-width: 90%; max-height: 85vh; border-radius: 8px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); transition: opacity 0.2s;">
+        <button class="lightbox-nav lightbox-next" onclick="event.stopPropagation(); nextImage()"><i class="fa-solid fa-chevron-right"></i></button>
+        <div id="lightbox-caption" class="lightbox-caption"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row g-4" style="display: flex; flex-wrap: wrap; gap: 30px; justify-content: space-between;">
+                <div class="col-lg-4 footer-brand" style="flex: 1; min-width: 250px;">
+                    <h2>Carmel Garden<span style="color:var(--pink);">.</span></h2>
+                    <p class="mt-2" style="font-size: 0.9rem; color: rgba(255,255,255,0.7); line-height: 1.8;">To be a premier school with a joyful, vibrant, caring community of innovative students, effective teachers and supportive parents â€” guided by Truth and Service.</p>
+                </div>
+                <div class="col-lg-3 footer-col" style="min-width: 200px;">
+                    <h4 style="color:#fff; margin-bottom: 20px; font-family:'Playfair Display', serif;">School Timings</h4>
+                    <div style="margin-bottom: 10px; color: rgba(255,255,255,0.7); font-size:0.9rem;"><i class="fa-solid fa-sun" style="color:#FFB300; margin-right: 8px;"></i> Morning : 8:30 AM to 12:00 PM</div>
+                    <div style="margin-bottom: 10px; color: rgba(255,255,255,0.7); font-size:0.9rem;"><i class="fa-solid fa-utensils" style="color:#FFB300; margin-right: 8px;"></i> Lunch : 12:00 PM to 12:30 PM</div>
+                    <div style="color: rgba(255,255,255,0.7); font-size:0.9rem;"><i class="fa-solid fa-moon" style="color:#FFB300; margin-right: 8px;"></i> Afternoon : 12:30 PM to 3:20 PM</div>
+                </div>
+                <div class="col-lg-3 footer-col" style="min-width: 200px;">
+                    <h4 style="color:#fff; margin-bottom: 20px; font-family:'Playfair Display', serif;">Contact Us</h4>
+                    <div style="margin-bottom: 10px; color: rgba(255,255,255,0.7); font-size:0.9rem;"><i class="fa-solid fa-phone" style="width:20px;"></i> +91 98765 43210</div>
+                    <div style="margin-bottom: 10px; color: rgba(255,255,255,0.7); font-size:0.9rem;"><i class="fa-solid fa-envelope" style="width:20px;"></i> info@carmelgarden.edu.in</div>
+                    <div style="color: rgba(255,255,255,0.7); font-size:0.9rem;"><i class="fa-solid fa-location-dot" style="width:20px;"></i> Coimbatore, Tamil Nadu</div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom" style="border-top: 1px solid rgba(255,255,255,0.1); margin-top: 40px; padding-top: 20px;">
+            <div class="container" style="display: flex; justify-content: space-between; flex-wrap: wrap; gap:10px; color: rgba(255,255,255,0.5); font-size: 0.85rem;">
+                <span>Â© 2025 Carmel Garden MHSS. All Rights Reserved.</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script>
+        let galleryData = {};
+        let filteredEvents = [];
+        let currentPage = 1;
+        const PHOTOS_PER_PAGE = 12;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/api/content')
+                .then(res => res.json())
+                .then(data => {
+                    galleryData = data.gallery || {};
+                    populateYearFilter();
+                    filterAlbums();
+                })
+                .catch(err => {
+                    console.error("Error loading gallery data:", err);
+                    document.getElementById('gallery-folders').innerHTML = '<p class="error-msg">Failed to load gallery albums.</p>';
+                });
+        });
+
+        function populateYearFilter() {
+            const years = new Set();
+            Object.values(galleryData).forEach(album => {
+                if(Array.isArray(album)) return; // skip migration states
+                if(album.date) years.add(album.date);
+            });
+            const sel = document.getElementById('gallery-year-filter');
+            Array.from(years).sort().reverse().forEach(y => {
+                sel.innerHTML += `<option value="${y}">${y}</option>`;
+            });
+        }
+
+        function filterAlbums() {
+            const search = document.getElementById('gallery-search').value.toLowerCase();
+            const year = document.getElementById('gallery-year-filter').value;
+            
+            filteredEvents = Object.keys(galleryData).filter(eventName => {
+                let album = galleryData[eventName];
+                if(Array.isArray(album)) album = { description: '', date: '' };
+                const matchName = eventName.toLowerCase().includes(search);
+                const matchDesc = (album.description || '').toLowerCase().includes(search);
+                const matchYear = year ? (album.date === year) : true;
+                return (matchName || matchDesc) && matchYear;
+            });
+            renderFolders();
+        }
+
+        function renderFolders() {
+            const foldersContainer = document.getElementById('gallery-folders');
+            foldersContainer.innerHTML = '';
+            
+            if(filteredEvents.length === 0) {
+                foldersContainer.innerHTML = '<div style="width: 100%; text-align: center; color: #666; font-size: 1.1rem; grid-column: 1 / -1;">No albums found.</div>';
+                return;
+            }
+
+            filteredEvents.forEach(eventName => {
+                let album = galleryData[eventName];
+                if(Array.isArray(album)) album = { photos: album, description: '', date: '' };
+                
+                const photos = album.photos || [];
+                const coverImage = photos.length > 0 ? photos[0] : 'images/placeholder.jpg';
+                const desc = album.description || 'View event photos';
+                const date = album.date || '';
+
+                const card = document.createElement('div');
+                card.className = 'album-card fade-up-element visible';
+                card.onclick = () => openFolder(eventName);
+                card.innerHTML = `
+                    <div class="album-cover">
+                        <img src="${coverImage}" loading="lazy" alt="${eventName}">
+                        <div class="album-overlay">
+                            <i class="fa-solid fa-expand"></i>
+                            <span>View ${photos.length} Photos</span>
+                        </div>
+                        ${date ? `<span class="album-badge">${date}</span>` : ''}
+                    </div>
+                    <div class="album-info">
+                        <h4>${eventName}</h4>
+                        <p>${desc}</p>
+                    </div>
+                `;
+                foldersContainer.appendChild(card);
+            });
+        }
+
+        let currentEventPhotos = [];
+        let currentEventName = '';
+
+        function openFolder(eventName) {
+            document.getElementById('gallery-folders-container').classList.add('hidden');
+            const photosSection = document.getElementById('gallery-photos');
+            photosSection.classList.remove('hidden');
+            photosSection.style.opacity = '0';
+            setTimeout(() => photosSection.style.opacity = '1', 50);
+
+            document.getElementById('current-event-title').innerText = eventName;
+            
+            let album = galleryData[eventName];
+            if(Array.isArray(album)) album = { photos: album }; 
+            
+            currentEventPhotos = album.photos || [];
+            currentEventName = eventName;
+            currentPage = 1;
+            
+            renderPhotosPage();
+        }
+
+        function renderPhotosPage() {
+            const container = document.getElementById('photos-grid');
+            container.innerHTML = '';
+            
+            if(currentEventPhotos.length === 0) {
+                container.innerHTML = '<div style="width: 100%; text-align: center; color: #666; font-size: 1.1rem; grid-column: 1 / -1; padding: 40px;">No photos uploaded to this album yet.</div>';
+                document.getElementById('gallery-pagination').innerHTML = '';
+                return;
+            }
+
+            const start = (currentPage - 1) * PHOTOS_PER_PAGE;
+            const end = start + PHOTOS_PER_PAGE;
+            const pagePhotos = currentEventPhotos.slice(start, end);
+
+            pagePhotos.forEach((photoPath, index) => {
+                const globalIndex = start + index;
+                const imgWrap = document.createElement('div');
+                imgWrap.className = 'photo-item fade-up-element visible';
+                imgWrap.style.animationDelay = `${index * 0.05}s`;
+                imgWrap.onclick = () => openLightbox(globalIndex);
+                
+                const img = document.createElement('img');
+                img.src = photoPath;
+                img.alt = currentEventName;
+                img.loading = 'lazy';
+                
+                imgWrap.appendChild(img);
+                container.appendChild(imgWrap);
+            });
+
+            renderPagination();
+        }
+
+        function renderPagination() {
+            const totalPages = Math.ceil(currentEventPhotos.length / PHOTOS_PER_PAGE);
+            const pagContainer = document.getElementById('gallery-pagination');
+            pagContainer.innerHTML = '';
+            
+            if(totalPages <= 1) return;
+
+            const prev = document.createElement('button');
+            prev.className = `page-btn ${currentPage === 1 ? 'disabled' : ''}`;
+            prev.innerText = 'Prev';
+            prev.onclick = () => { if(currentPage > 1) { currentPage--; renderPhotosPage(); } };
+            pagContainer.appendChild(prev);
+            
+            for(let i=1; i<=totalPages; i++) {
+                const btn = document.createElement('button');
+                btn.className = `page-btn ${currentPage === i ? 'active' : ''}`;
+                btn.innerText = i;
+                btn.onclick = () => { currentPage = i; renderPhotosPage(); };
+                pagContainer.appendChild(btn);
+            }
+
+            const next = document.createElement('button');
+            next.className = `page-btn ${currentPage === totalPages ? 'disabled' : ''}`;
+            next.innerText = 'Next';
+            next.onclick = () => { if(currentPage < totalPages) { currentPage++; renderPhotosPage(); } };
+            pagContainer.appendChild(next);
+        }
+
+        function closeFolder() {
+            document.getElementById('gallery-photos').classList.add('hidden');
+            document.getElementById('gallery-folders-container').classList.remove('hidden');
+        }
+
+        let lightboxIndex = 0;
+
+        function openLightbox(index) {
+            lightboxIndex = index;
+            showLightboxImage();
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            lightbox.style.opacity = '0';
+            setTimeout(() => lightbox.style.opacity = '1', 50);
+        }
+
+        function showLightboxImage() {
+            const img = document.getElementById('lightbox-img');
+            const caption = document.getElementById('lightbox-caption');
+            img.style.opacity = '0'; 
+            setTimeout(() => {
+                img.src = currentEventPhotos[lightboxIndex];
+                caption.innerText = `${currentEventName} - ${lightboxIndex + 1} of ${currentEventPhotos.length}`;
+                img.style.opacity = '1';
+            }, 150);
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function nextImage() {
+            if(lightboxIndex < currentEventPhotos.length - 1) {
+                lightboxIndex++;
+                showLightboxImage();
+            }
+        }
+
+        function prevImage() {
+            if(lightboxIndex > 0) {
+                lightboxIndex--;
+                showLightboxImage();
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            const lightbox = document.getElementById('lightbox');
+            if(!lightbox.classList.contains('hidden')) {
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowRight') nextImage();
+                if (e.key === 'ArrowLeft') prevImage();
+            }
+        });
+
+        let touchstartX = 0;
+        let touchendX = 0;
+        const lightboxElem = document.getElementById('lightbox');
+        lightboxElem.addEventListener('touchstart', e => { touchstartX = e.changedTouches[0].screenX; }, {passive: true});
+        lightboxElem.addEventListener('touchend', e => {
+            touchendX = e.changedTouches[0].screenX;
+            if (touchendX < touchstartX - 50) nextImage();
+            if (touchendX > touchstartX + 50) prevImage();
+        }, {passive: true});
+    </script>
+</body>
+</html>
+
